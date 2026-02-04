@@ -10,13 +10,13 @@
 
 - [ X ] Initialize repo & standardize dev workflow
 - [ X ] Create monorepo (pnpm) or two separate repos (web / api)
-- [ ] Set up TypeScript strict, ESLint/Prettier, lint-staged, commit convention
-- [ ] Set up env management (local/dev/prod), secrets policy
+- [ x ] Set up TypeScript strict, ESLint/Prettier, lint-staged, commit convention
+- [ x ] Set up env management (local/dev/prod), secrets policy
 
 ## Data Modeling
 
-- [ ] Define ERD + DB schema: users, roles, posts, categories/tags, media, publish states
-- [ ] Choose migration strategy (TypeORM/Prisma) + seed data
+- [ x ] Define ERD + DB schema: users, roles, posts, categories/tags, media, publish states
+- [ x ] Choose migration strategy (TypeORM/Prisma) + seed data
 
 ## Backend (Separate Service)
 

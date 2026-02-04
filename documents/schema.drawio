@@ -1,0 +1,80 @@
+<mxfile host="app.diagrams.net" modified="2026-02-03T00:00:00.000Z" agent="Codex" version="22.1.0" type="device">
+  <diagram id="ERD" name="ERD">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="users" value="USERS\n- id (PK)\n- username (UNIQUE)\n- first_name\n- last_name\n- role_id (FK)\n- created_at\n- updated_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="240" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="roles" value="ROLES\n- id (PK)\n- name (UNIQUE)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="320" y="40" width="200" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="categories" value="CATEGORIES\n- id (PK)\n- name\n- slug (UNIQUE)\n- description\n- created_by (FK)\n- status\n- created_at\n- updated_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="260" width="260" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="posts" value="POSTS\n- id (PK)\n- title\n- slug (UNIQUE)\n- content\n- author_id (FK)\n- category_id (FK)\n- created_at\n- updated_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="360" y="260" width="260" height="200" as="geometry" />
+        </mxCell>
+
+        <mxCell id="media" value="MEDIA\n- id (PK)\n- name\n- url\n- created_by (FK)\n- created_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="680" y="260" width="220" height="160" as="geometry" />
+        </mxCell>
+
+        <mxCell id="post_media" value="POST_MEDIA\n- post_id (FK)\n- media_id (FK)\n- sort_order" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="680" y="460" width="220" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="publish_events" value="PUBLISH_EVENTS\n- id (PK)\n- target_type\n- target_id\n- action\n- scheduled_at\n- executed_at\n- status\n- created_by (FK)\n- created_at" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0f172a;fontColor=#ffffff;strokeColor=#94a3b8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="500" width="300" height="220" as="geometry" />
+        </mxCell>
+
+        <!-- Edges -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94a3b8;" edge="1" parent="1" source="users" target="roles">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94a3b8;" edge="1" parent="1" source="users" target="posts">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94a3b8;" edge="1" parent="1" source="users" target="categories">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94a3b8;" edge="1" parent="1" source="categories" target="posts">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94a3b8;" edge="1" parent="1" source="posts" target="post_media">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94a3b8;" edge="1" parent="1" source="media" target="post_media">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94a3b8;" edge="1" parent="1" source="users" target="media">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94a3b8;" edge="1" parent="1" source="users" target="publish_events">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94a3b8;" edge="1" parent="1" source="posts" target="publish_events">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94a3b8;" edge="1" parent="1" source="categories" target="publish_events">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

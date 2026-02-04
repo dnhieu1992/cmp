@@ -9,16 +9,28 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.3",
+    "@hookform/resolvers": "^3.9.1",
+    "@mui/icons-material": "^6.1.2",
+    "@mui/material": "^6.1.2",
+    "axios": "^1.7.7",
     "next": "16.1.6",
+    "react-hook-form": "^7.54.2",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "postcss": "^8.5.6",
+    "sass": "^1.80.7",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5"
   }
 }

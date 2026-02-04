@@ -1,10 +1,15 @@
+import cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
@@ -12,6 +17,18 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.use(cookieParser());
+
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('CMP API')
+    .setDescription('API documentation')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .addCookieAuth('access_token')
+    .build();
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api/docs', app, document);
+
   await app.listen(process.env.PORT ?? 3001);
 }
 bootstrap();
