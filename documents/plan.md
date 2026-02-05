@@ -20,7 +20,7 @@
 
 ## Backend (Separate Service)
 
-- [ ] Set up framework (NestJS/Express) + layer structure (controller/service/repo)
+- [ x ] Set up framework (NestJS/Express) + layer structure (controller/service/repo)
 - [ ] Implement AuthN/AuthZ: login, refresh token/cookies, roles (admin/editor)
 - [ ] Build content APIs: CRUD posts/pages, publish/schedule, list/search/filter
 - [ ] Build media APIs: upload (S3 presigned or proxy), metadata

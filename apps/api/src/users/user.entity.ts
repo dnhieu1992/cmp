@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from '../database/base.entity';
+import { UserRole } from '../roles/user_role.entity';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -14,4 +15,7 @@ export class User extends BaseEntity {
 
   @Column({ length: 255 })
   password_hash!: string;
+
+  @OneToMany(() => UserRole, (ur) => ur.user)
+  userRoles!: UserRole[];
 }

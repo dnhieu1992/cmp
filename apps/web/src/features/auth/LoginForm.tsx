@@ -7,8 +7,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button, Input, Checkbox, Spinner } from "@/components/ui";
 import { Form, FormField, FormError, FormLabel } from "@/components/forms";
-import axios from "axios";
 import { apiClient } from "@/lib/api";
+import { useRouter, useSearchParams } from "next/navigation";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -24,6 +25,8 @@ export type LoginFormProps = {
 };
 
 export default function LoginForm({ onSubmit, loading }: LoginFormProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -47,12 +50,10 @@ export default function LoginForm({ onSubmit, loading }: LoginFormProps) {
       });
 
       form.clearErrors("root");
+      const next = searchParams.get("next") ?? "/dashboard";
+      router.replace(next);
     } catch (error) {
-      const message = axios.isAxiosError(error)
-        ? (error.response?.data as { message?: string } | undefined)?.message || error.message
-        : error instanceof Error
-          ? error.message
-          : "Unable to sign in";
+      const message = getErrorMessage(error);
 
       form.setError("root", {
         type: "server",
