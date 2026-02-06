@@ -1,4 +1,12 @@
-import { Controller, Get, UseGuards, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Put,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiCookieAuth,
@@ -10,6 +18,7 @@ import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import type { Request } from 'express';
 import { User } from './user.entity';
+import { UpdateUserRolesDto } from './dto/update_user_roles.dto';
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -24,6 +33,13 @@ export class UsersController {
   @ApiOkResponse({ description: 'List of users' })
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @Put(':id/roles')
+  @ApiOperation({ summary: 'Update user roles' })
+  @ApiOkResponse({ description: 'User roles updated' })
+  updateRoles(@Param('id') id: string, @Body() body: UpdateUserRolesDto) {
+    return this.usersService.updateRoles(Number(id), body.roleIds);
   }
 
   @Get('me')

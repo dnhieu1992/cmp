@@ -18,7 +18,16 @@ export class UsersService {
   ) {}
 
   async findAll() {
-    return this.usersRepository.find({ order: { created_at: 'DESC' } });
+    const users = await this.usersRepository.find({
+      order: { created_at: 'DESC' },
+      relations: { userRoles: { role: true } },
+    });
+
+    return users.map((user) => {
+      const roles = user.userRoles?.map((ur) => ur.role) ?? [];
+      const { userRoles, ...rest } = user;
+      return { ...rest, roles };
+    });
   }
 
   async findByEmail(email: string) {
@@ -34,9 +43,15 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async updateRoles(userId: number, roleIds: string[]) {
+  async updateRoles(userId: number, roleIds: number[]) {
+    const ids = Array.isArray(roleIds) ? roleIds : [];
+
     await this.userRolesRepository.delete({ user: { id: userId } });
-    const roles = await this.roleRepository.findBy({ id: In(roleIds) });
+
+    // Allow clearing roles with an empty list.
+    if (ids.length === 0) return [];
+
+    const roles = await this.roleRepository.findBy({ id: In(ids) });
 
     const userRoles = roles.map((role) =>
       this.userRolesRepository.create({

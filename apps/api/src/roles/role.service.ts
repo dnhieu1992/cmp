@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { In, Repository } from 'typeorm';
 import { Role } from './entity/role.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RolePermission } from 'src/permission/entity/role_permission.entity';
-import { Permission } from 'src/permission/entity/permission.entity';
+import { RolePermission } from '../permission/entity/role_permission.entity';
+import { Permission } from '../permission/entity/permission.entity';
 
 @Injectable()
 export class RoleService {
@@ -15,6 +15,10 @@ export class RoleService {
     @InjectRepository(Permission)
     private readonly permissionRepository: Repository<Permission>,
   ) {}
+
+  async findAll() {
+    return this.roleRepository.find({ order: { created_at: 'DESC' } });
+  }
 
   async assignPermissions(roleId: number, permissionIds: number[]) {
     await this.rolePermissionRepository.delete({ role: { id: roleId } });

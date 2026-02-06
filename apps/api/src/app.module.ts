@@ -8,15 +8,24 @@ import { HealthModule } from './health/health.module';
 import { UsersModule } from './users/users.module';
 import { envValidationSchema } from './config/env.validation';
 import { AuthModule } from './auth/auth.module';
+import { RoleModule } from './roles/role.module';
+import { PermissionModule } from './permission/permission.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: [
-        join(__dirname, `../.env.${process.env.NODE_ENV ?? 'development'}`),
-        join(__dirname, '../.env'),
-      ],
+      envFilePath: (() => {
+        const envName = `.env.${process.env.NODE_ENV ?? 'development'}`;
+        return [
+          join(process.cwd(), envName),
+          join(process.cwd(), '.env'),
+          join(process.cwd(), 'apps/api', envName),
+          join(process.cwd(), 'apps/api', '.env'),
+          join(__dirname, `../${envName}`),
+          join(__dirname, '../.env'),
+        ];
+      })(),
       validationSchema: envValidationSchema,
       validationOptions: {
         allowUnknown: true,
@@ -39,6 +48,8 @@ import { AuthModule } from './auth/auth.module';
     HealthModule,
     UsersModule,
     AuthModule,
+    RoleModule,
+    PermissionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
