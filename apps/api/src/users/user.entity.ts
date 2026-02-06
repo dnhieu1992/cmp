@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from '../database/base.entity';
-import { UserRole } from '../roles/user_role.entity';
+import { UserRole } from '../roles/entity/user_role.entity';
+import { Session } from '../permission/entity/session.entity';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -18,4 +19,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => UserRole, (ur) => ur.user)
   userRoles!: UserRole[];
+
+  @OneToMany(() => Session, (s) => s.user)
+  sessions!: Session[];
 }

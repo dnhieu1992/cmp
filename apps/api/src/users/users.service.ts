@@ -1,14 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create_user.dto';
+import { UserRole } from '../roles/entity/user_role.entity';
+import { Role } from '../roles/entity/role.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
+    @InjectRepository(UserRole)
+    private readonly userRolesRepository: Repository<UserRole>,
+    @InjectRepository(Role)
+    private readonly roleRepository: Repository<Role>,
   ) {}
 
   async findAll() {
@@ -26,5 +32,19 @@ export class UsersService {
     });
 
     return this.usersRepository.save(user);
+  }
+
+  async updateRoles(userId: number, roleIds: string[]) {
+    await this.userRolesRepository.delete({ user: { id: userId } });
+    const roles = await this.roleRepository.findBy({ id: In(roleIds) });
+
+    const userRoles = roles.map((role) =>
+      this.userRolesRepository.create({
+        user: { id: userId } as User,
+        role,
+      }),
+    );
+
+    return this.userRolesRepository.save(userRoles);
   }
 }
