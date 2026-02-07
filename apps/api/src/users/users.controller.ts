@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Post,
   Put,
   Req,
   UseGuards,
@@ -19,6 +21,8 @@ import { AuthGuard } from '@nestjs/passport';
 import type { Request } from 'express';
 import { User } from './user.entity';
 import { UpdateUserRolesDto } from './dto/update_user_roles.dto';
+import { CreateAdminUserDto } from './dto/create_admin_user.dto';
+import { UpdateAdminUserDto } from './dto/update_admin_user.dto';
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -33,6 +37,27 @@ export class UsersController {
   @ApiOkResponse({ description: 'List of users' })
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @Post()
+  @ApiOperation({ summary: 'Create user (admin)' })
+  @ApiOkResponse({ description: 'User created' })
+  create(@Body() body: CreateAdminUserDto) {
+    return this.usersService.createAdminUser(body);
+  }
+
+  @Put(':id')
+  @ApiOperation({ summary: 'Update user (admin)' })
+  @ApiOkResponse({ description: 'User updated' })
+  update(@Param('id') id: string, @Body() body: UpdateAdminUserDto) {
+    return this.usersService.updateAdminUser(Number(id), body);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete user (hard delete)' })
+  @ApiOkResponse({ description: 'User deleted' })
+  remove(@Param('id') id: string) {
+    return this.usersService.hardDelete(Number(id));
   }
 
   @Put(':id/roles')
