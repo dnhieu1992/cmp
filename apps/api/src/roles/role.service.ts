@@ -17,7 +17,17 @@ export class RoleService {
   ) {}
 
   async findAll() {
-    return this.roleRepository.find({ order: { created_at: 'DESC' } });
+    const roles = await this.roleRepository.find({
+      order: { created_at: 'DESC' },
+      relations: { rolePermissions: { permission: true } },
+    });
+
+    return roles.map((role) => {
+      const permissions =
+        role.rolePermissions?.map((rp) => rp.permission.code) ?? [];
+      const { rolePermissions, ...rest } = role as any;
+      return { ...rest, permissions };
+    });
   }
 
   async assignPermissions(roleId: number, permissionIds: number[]) {
