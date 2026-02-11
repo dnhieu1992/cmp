@@ -17,6 +17,9 @@ export class User extends BaseEntity {
   @Column({ length: 255 })
   password_hash!: string;
 
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  refresh_token_hash?: string | null;
+
   @OneToMany(() => UserRole, (ur) => ur.user)
   userRoles!: UserRole[];
 
